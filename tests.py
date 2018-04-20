@@ -17,13 +17,16 @@ class PartyTests(unittest.TestCase):
         """Can we reach the homepage?"""
 
         result = self.client.get("/")
+        # using get method on our test client, and storing that to result
         self.assertIn("having a party", result.data)
 
     def test_no_rsvp_yet(self):
         """Do users who haven't RSVPed see the correct view?"""
 
         # FIXME: Add a test to show we haven't RSVP'd yet
-        print "FIXME"
+        result = self.client.get("/")
+        self.assertIn("Please RSVP", result.data)
+
 
     def test_rsvp(self):
         """Do RSVPed users see the correct view?"""
@@ -33,8 +36,9 @@ class PartyTests(unittest.TestCase):
         result = self.client.post("/rsvp", data=rsvp_info,
                                   follow_redirects=True)
 
-        # FIXME: check that once we log in we see party details--but not the form!
-        print "FIXME"
+        self.assertIn("Party Details", result.data)
+
+        
 
     def test_rsvp_mel(self):
         """Can we keep Mel out?"""
